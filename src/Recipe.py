@@ -1,0 +1,34 @@
+class Recipe:
+    def __init__(self, title: str, ingredients: list[Ingredient] = None) -> None:
+        self.title = title
+        self.ingredients = ingredients
+    
+    def add_ingredient(self, ingredient: Ingredient):
+        is_in_ingredients = False
+        for ingr in self.ingredients:
+            if ingr == ingredient:
+                ingr.quantity += ingredient.quantity
+                is_in_ingredients = True
+                break
+        if not is_in_ingredients:
+            self.ingredients.append(ingredient)
+        
+    @staticmethod
+    def is_valid_ratio(ratio) -> bool:
+        if isinstance(ratio, (int, float)) and ratio > 0:
+            return True
+        return False
+    
+    def scale(self, ratio: float) -> Recipe:
+        if not self.is_valid_ratio(ratio):
+            raise ValueError("Коэффициент масштабирования должен быть положительным числом")
+        new_Recipe = Recipe(self.title)
+        for ingredient in new_Recipe.ingredients:
+            ingredient.quantity *= ratio
+        return new_Recipe
+    
+    def __len__(self):
+        return len(self.ingredients)
+    
+    def __str__(self):
+        return f"Блюдо: {self.title}\n" + "Ингридиенты: " + "\n".join(str(ingredient) for ingredient in self.ingredients)
