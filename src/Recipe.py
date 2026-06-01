@@ -1,3 +1,4 @@
+from Ingredient import Ingredient
 class Recipe:
     def __init__(self, title: str, ingredients: list[Ingredient] = None) -> None:
         self.title = title
