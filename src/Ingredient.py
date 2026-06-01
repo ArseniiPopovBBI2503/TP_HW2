@@ -5,16 +5,8 @@ class Ingredient:
         self.unit = unit
     
     @property
-    def name(self) -> str:
-        return self._name
-    
-    @property
     def quantity(self) -> float:
         return self._quantity   
-
-    @property
-    def unit(self) -> str:
-        return self._unit
 
     @quantity.setter
     def quantity(self, value: float) -> None:
