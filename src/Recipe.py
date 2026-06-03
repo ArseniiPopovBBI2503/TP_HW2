@@ -2,7 +2,10 @@ from src.Ingredient import Ingredient
 class Recipe:
     def __init__(self, title: str, ingredients: list[Ingredient] = None) -> None:
         self.title = title
-        self.ingredients = ingredients
+        if ingredients is None:
+            self.ingredients = []
+        else:
+            self.ingredients = ingredients
     
     def add_ingredient(self, ingredient: Ingredient):
         is_in_ingredients = False
@@ -16,17 +19,19 @@ class Recipe:
         
     @staticmethod
     def is_valid_ratio(ratio) -> bool:
-        if isinstance(ratio, (int, float)) and ratio > 0:
+        if float(ratio) > 0:
             return True
         return False
     
     def scale(self, ratio: float) -> Recipe:
         if not self.is_valid_ratio(ratio):
-            raise ValueError("Коэффициент масштабирования должен быть положительным числом")
-        new_Recipe = Recipe(self.title)
-        for ingredient in new_Recipe.ingredients:
-            ingredient.quantity *= ratio
-        return new_Recipe
+            raise ValueError("Коэффициент масштабирования должен быть положительным")
+        new_recipe = Recipe(self.title)
+        for ingredient in self.ingredients:
+            new_quantity = ingredient.quantity * ratio
+            new_ingredient = Ingredient(ingredient.name, new_quantity, ingredient.unit)
+            new_recipe.add_ingredient(new_ingredient)
+        return new_recipe
     
     def __len__(self):
         return len(self.ingredients)
