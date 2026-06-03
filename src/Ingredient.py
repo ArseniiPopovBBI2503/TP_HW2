@@ -18,9 +18,9 @@ class Ingredient:
         return f"{self.name}: {self.quantity} {self.unit}"
     
     def __repr__(self):
-        return f"Ingredient('{self._name}', {self._quantity}, '{self._unit}')"
+        return f"Ingredient('{self.name}', {self.quantity}, '{self.unit}')"
     
     def __eq__(self, other):
         if not isinstance(other, Ingredient):
             return False
-        return self._name == other._name and self._unit == other._unit
+        return self.name == other.name and self.unit == other.unit
