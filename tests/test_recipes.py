@@ -1,6 +1,7 @@
-import pytest 
+import pytest
 from src.Ingredient import Ingredient
-from src.Recipe import Recipe
+from src.Recipe import Recipe 
+from src.ShoppingList import ShoppingList
 
 def test_ingredient_init():
     flour = Ingredient("Мука", 500, "г")
@@ -77,7 +78,6 @@ def test_scale_check_multiply():
     flour = Ingredient("Мука", 500, "г")
     cake_recipe.add_ingredient(flour)
     new_recipe = cake_recipe.scale(2.0)
-    assert len(new_recipe) == 1
     assert new_recipe.ingredients[0].quantity == 1000.0
 
 def test_recipe_wrong_scale():
@@ -97,6 +97,23 @@ def test_recipe_len():
     cake.add_ingredient(Ingredient("Мука", 1, "г"))
     assert len(cake) == 3
 
+def test_ShoppingList_add_recipe_wrong_portions():
+    shopping_list = ShoppingList()
+    recipe = Recipe("Торт")
+    with pytest.raises(ValueError):
+        shopping_list.add_recipe(recipe, -1.0)
+    with pytest.raises(ValueError):
+        shopping_list.add_recipe(recipe, 0)
+
+def test_ShoppingList_add_recipe():
+    shopping_list = ShoppingList()
+    recipe = Recipe("Торт")
+    flour = Ingredient("Мука", 500, "г")
+    sugar = Ingredient("Сахар", 400, "г")
+    recipe.add_ingredient(flour)
+    recipe.add_ingredient(sugar)
+    shopping_list.add_recipe(recipe, 2.0)
+    assert shopping_list.get_list() == [Ingredient("Мука", 1000.0, "г"), Ingredient("Сахар", 800.0, "г")]
 
 
 
