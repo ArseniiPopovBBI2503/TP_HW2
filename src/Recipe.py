@@ -1,4 +1,4 @@
-from Ingredient import Ingredient
+from src.Ingredient import Ingredient
 class Recipe:
     def __init__(self, title: str, ingredients: list[Ingredient] = None) -> None:
         self.title = title
@@ -7,7 +7,7 @@ class Recipe:
     def add_ingredient(self, ingredient: Ingredient):
         is_in_ingredients = False
         for ingr in self.ingredients:
-            if ingr == ingredient:
+            if ingr.__eq__(ingredient):
                 ingr.quantity += ingredient.quantity
                 is_in_ingredients = True
                 break
