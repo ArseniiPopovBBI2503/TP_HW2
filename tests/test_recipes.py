@@ -115,5 +115,55 @@ def test_ShoppingList_add_recipe():
     shopping_list.add_recipe(recipe, 2.0)
     assert shopping_list.get_list() == [Ingredient("Мука", 1000.0, "г"), Ingredient("Сахар", 800.0, "г")]
 
+def test_ShoppingList_remove_recipe():
+    shopping_list = ShoppingList()
+    recipe1 = Recipe("Торт")
+    flour = Ingredient("Мука", 500, "г")
+    recipe1.add_ingredient(flour)
+    shopping_list.add_recipe(recipe1, 2.0)
+    recipe2 = Recipe("Пицца")
+    sugar = Ingredient("Сыр", 400, "г")
+    recipe2.add_ingredient(sugar)
+    shopping_list.add_recipe(recipe2, 2.0)
+    shopping_list.remove_recipe("Торт")
+    assert shopping_list.get_list() == [Ingredient("Сыр", 800.0, "г")]
 
+def test_ShoppingList_get_list_same_ingredients():
+    shopping_list = ShoppingList()
+    recipe1 = Recipe("Торт")
+    flour = Ingredient("Мука", 500, "г")
+    recipe1.add_ingredient(flour)
+    shopping_list.add_recipe(recipe1, 2.0)
+    recipe2 = Recipe("Пицца")
+    recipe2.add_ingredient(flour)
+    shopping_list.add_recipe(recipe2, 1.0)
+    assert shopping_list.get_list() == [Ingredient("Мука", 1500.0, "г")]
 
+def test_ShoppingList_get_list_queue_of_words():
+    shopping_list = ShoppingList()
+    recipe1 = Recipe("Пирог")
+    flour = Ingredient("Мука", 500, "г")
+    sugar = Ingredient("Сахар", 200, "г")
+    apricot = Ingredient("Абрикос", 300, "г")
+    recipe1.add_ingredient(flour)
+    recipe1.add_ingredient(sugar)
+    recipe1.add_ingredient(apricot)
+    shopping_list.add_recipe(recipe1, 2.0)
+    assert shopping_list.get_list() == [Ingredient("Абрикос", 600.0, "г"), Ingredient("Мука", 1000.0, "г"), Ingredient("Сахар", 400.0, "г")]
+
+def test_shopping_list_add():
+    ShoppingList1 = ShoppingList()
+    ShoppingList2 = ShoppingList()
+    recipe1 = Recipe("Торт")
+    flour = Ingredient("Мука", 500, "г")
+    recipe1.add_ingredient(flour)
+    ShoppingList1.add_recipe(recipe1, 1.0)
+
+    recipe2 = Recipe("Пицца")
+    sugar = Ingredient("Сахар", 200, "г")
+    recipe2.add_ingredient(sugar)
+    ShoppingList2.add_recipe(recipe2, 1.0)
+    combined = ShoppingList1 + ShoppingList2
+    assert len(combined._items) == 2
+    assert (flour, "Торт") in combined._items
+    assert (sugar, "Пицца") in combined._items
